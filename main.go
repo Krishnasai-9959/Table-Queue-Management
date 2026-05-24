@@ -38,8 +38,10 @@ func main() {
 
 	// METRICS
 	http.Handle("/metrics", promhttp.Handler())
+	// HEALTH CHECK
+	http.HandleFunc("/health", HealthCheck)
 
-	// 🔥 SERVE FRONTEND
+	//  SERVE FRONTEND
 	fs := http.FileServer(http.Dir("./frontend"))
 	http.Handle("/", fs)
 
