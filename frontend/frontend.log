@@ -1,0 +1,41 @@
+127.0.0.1 - - [26/Mar/2026 11:52:21] "GET /? HTTP/1.1" 200 -
+127.0.0.1 - - [26/Mar/2026 11:52:21] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:21] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:21] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:21] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:22] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:22] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:22] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:22] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:22] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:22] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:23] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:23] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:52:23] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:52:23] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:21] "GET /? HTTP/1.1" 304 -
+127.0.0.1 - - [26/Mar/2026 11:54:21] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:21] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:21] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:21] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:21] "GET /? HTTP/1.1" 304 -
+127.0.0.1 - - [26/Mar/2026 11:54:21] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:21] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:21] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:21] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:22] "GET /? HTTP/1.1" 304 -
+127.0.0.1 - - [26/Mar/2026 11:54:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:22] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:22] "GET /script.js HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:22] "GET /? HTTP/1.1" 304 -
+127.0.0.1 - - [26/Mar/2026 11:54:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:22] "GET /styles.css HTTP/1.1" 404 -
+127.0.0.1 - - [26/Mar/2026 11:54:22] code 404, message File not found
+127.0.0.1 - - [26/Mar/2026 11:54:22] "GET /script.js HTTP/1.1" 404 -

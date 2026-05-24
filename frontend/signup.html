@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Mise — Create account</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    .role-pill{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:11.5px;font-weight:500;
+      background:var(--accent-bg);color:var(--accent);
+      border:1px solid var(--accent-b);
+      border-radius:var(--rf);padding:3px 10px;
+      margin-bottom:22px;
+    }
+    .role-pill i{font-size:10px}
+  </style>
+</head>
+<body>
+<div id="toasts"></div>
+
+<div class="auth-root">
+  <div class="auth-logo">
+    <div class="auth-logo-mark">🍽</div>
+    <span class="auth-logo-text">Mise</span>
+  </div>
+
+  <div class="auth-card">
+    <h1 class="auth-heading">Create account</h1>
+    <p class="auth-sub">Join your restaurant team as a waiter</p>
+
+    <div class="role-pill"><i class="fa-solid fa-user-tie"></i> Waiter</div>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label class="field-label" for="name">Full name</label>
+        <div class="fi-wrap">
+          <i class="fa-solid fa-user fi-ico"></i>
+          <input type="text" id="name" class="field-input" placeholder="Alex Johnson" autocomplete="name"/>
+        </div>
+        <span class="field-err" id="e-name"><i class="fa-solid fa-circle-exclamation"></i> Name required</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="email">Email</label>
+        <div class="fi-wrap">
+          <i class="fa-solid fa-envelope fi-ico"></i>
+          <input type="email" id="email" class="field-input" placeholder="alex@restaurant.com" autocomplete="email"/>
+        </div>
+        <span class="field-err" id="e-email"><i class="fa-solid fa-circle-exclamation"></i> Valid email required</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="password">Password</label>
+        <div class="fi-wrap">
+          <i class="fa-solid fa-lock fi-ico"></i>
+          <input type="password" id="password" class="field-input" placeholder="Min 8 chars, upper, lower, number" autocomplete="new-password"/>
+        </div>
+        <span class="field-err" id="e-password"><i class="fa-solid fa-circle-exclamation"></i> Password too weak</span>
+
+        <div class="strength-wrap" id="sw">
+          <div class="strength-bars strength-0" id="sbars">
+            <div class="s-bar"></div><div class="s-bar"></div>
+            <div class="s-bar"></div><div class="s-bar"></div>
+          </div>
+          <span class="strength-label" id="slbl">—</span>
+        </div>
+
+        <ul class="req-list" id="reqs">
+          <li id="r-len"><i class="fa-regular fa-circle"></i> 8+ characters</li>
+          <li id="r-up"><i class="fa-regular fa-circle"></i> Uppercase letter</li>
+          <li id="r-lo"><i class="fa-regular fa-circle"></i> Lowercase letter</li>
+          <li id="r-di"><i class="fa-regular fa-circle"></i> Number</li>
+        </ul>
+      </div>
+
+      <button type="submit" class="btn-cta" id="btn">
+        <span class="cta-text">Create account</span>
+        <span class="cta-spinner"></span>
+      </button>
+    </form>
+  </div>
+
+  <p class="auth-foot">Already have an account? <a href="index.html">Sign in</a></p>
+</div>
+
+<script src="script.js"></script>
+<script>
+!function(){
+  const { Auth, API, Toast, Btn, Guard } = Mise;
+  Guard.guest();
+
+  function score(p) {
+    let s = 0;
+    if (p.length >= 8)    s++;
+    if (/[A-Z]/.test(p)) s++;
+    if (/[a-z]/.test(p)) s++;
+    if (/[0-9]/.test(p)) s++;
+    return s;
+  }
+
+  function reqOk(id, ok) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('ok', ok);
+    el.querySelector('i').className = ok ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle';
+  }
+
+  document.getElementById('password').addEventListener('input', function() {
+    const p = this.value;
+    const s = score(p);
+    const sb = document.getElementById('sbars');
+    const lbl = document.getElementById('slbl');
+    sb.className = `strength-bars strength-${p ? s : 0}`;
+    lbl.className = 'strength-label';
+    if (!p) { lbl.textContent = '—'; return; }
+    const map = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    const cls = ['', 'bad', 'ok', 'ok', 'good'];
+    lbl.textContent = map[s];
+    if (cls[s]) lbl.classList.add(cls[s]);
+    reqOk('r-len', p.length >= 8);
+    reqOk('r-up',  /[A-Z]/.test(p));
+    reqOk('r-lo',  /[a-z]/.test(p));
+    reqOk('r-di',  /[0-9]/.test(p));
+  });
+
+  function err(id, show) { document.getElementById(id).classList.toggle('on', show); }
+  ['name','email','password'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => err(`e-${id}`, false));
+  });
+
+  const btn  = document.getElementById('btn');
+  document.getElementById('form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const name     = document.getElementById('name').value.trim();
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    let bad = false;
+    if (!name) { err('e-name', true); bad = true; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err('e-email', true); bad = true; }
+    if (score(password) < 4) { err('e-password', true); bad = true; }
+    if (bad) return;
+
+    Btn.load(btn);
+    try {
+      const data = await API.signup({ name, email, password });
+      Auth.save({ token: data.token, user_id: data.user_id, role: data.role, name });
+      Toast.success('Account created');
+      setTimeout(() => location.href = 'dashboard.html', 600);
+    } catch (ex) {
+      Toast.error(ex.message || 'Signup failed');
+      Btn.reset(btn);
+    }
+  });
+}();
+</script>
+</body>
+</html>

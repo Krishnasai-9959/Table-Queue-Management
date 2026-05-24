@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Mise — Sign in</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<div id="toasts"></div>
+
+<div class="auth-root">
+  <div class="auth-logo">
+    <div class="auth-logo-mark">🍽</div>
+    <span class="auth-logo-text">Mise</span>
+  </div>
+
+  <div class="auth-card">
+    <h1 class="auth-heading">Sign in</h1>
+    <p class="auth-sub">Enter your credentials to access the dashboard</p>
+
+    <form id="form" novalidate>
+      <div class="field">
+        <label class="field-label" for="email">Email</label>
+        <div class="fi-wrap">
+          <i class="fa-solid fa-envelope fi-ico"></i>
+          <input type="email" id="email" class="field-input" placeholder="name@restaurant.com" autocomplete="email"/>
+        </div>
+        <span class="field-err" id="e-email"><i class="fa-solid fa-circle-exclamation"></i> Valid email required</span>
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="password">Password</label>
+        <div class="fi-wrap">
+          <i class="fa-solid fa-lock fi-ico"></i>
+          <input type="password" id="password" class="field-input" placeholder="••••••••" autocomplete="current-password"/>
+        </div>
+        <span class="field-err" id="e-password"><i class="fa-solid fa-circle-exclamation"></i> Password required</span>
+      </div>
+
+      <button type="submit" class="btn-cta" id="btn">
+        <span class="cta-text">Continue</span>
+        <span class="cta-spinner"></span>
+      </button>
+    </form>
+  </div>
+
+  <p class="auth-foot">No account? <a href="signup.html">Create one</a></p>
+</div>
+
+<script src="script.js"></script>
+<script>
+!function(){
+  const { Auth, API, Toast, Btn, Guard } = Mise;
+  Guard.guest();
+
+  const form = document.getElementById('form');
+  const btn  = document.getElementById('btn');
+
+  function err(id, show) {
+    document.getElementById(id).classList.toggle('on', show);
+  }
+
+  ['email','password'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => err(`e-${id}`, false));
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    let bad = false;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err('e-email', true); bad = true; }
+    if (!password) { err('e-password', true); bad = true; }
+    if (bad) return;
+
+    Btn.load(btn);
+    try {
+      const data = await API.login({ email, password });
+      Auth.save({ token: data.token, user_id: data.user_id, role: data.role });
+      Toast.success('Signed in');
+      setTimeout(() => location.href = 'dashboard.html', 600);
+    } catch (ex) {
+      Toast.error(ex.message || 'Invalid credentials');
+      Btn.reset(btn);
+    }
+  });
+}();
+</script>
+</body>
+</html>
