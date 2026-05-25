@@ -4,7 +4,7 @@
    ============================================================ */
 'use strict';
 
-const BASE = 'http://localhost:8080';
+const BASE = 'https://table-queue-management.onrender.com';
 
 /* ── Auth ── */
 const Auth = {
@@ -89,7 +89,7 @@ const WS = {
   conn: null, cbs: [],
   connect() {
     try {
-      const url = `ws://${BASE.replace(/^https?:\/\//, '')}/ws`;
+      const url = "wss://table-queue-management.onrender.com/ws";
       this.conn = new WebSocket(url);
       this.conn.onopen    = () => WS._badge(true);
       this.conn.onmessage = e  => { WS._log(e.data); WS.cbs.forEach(f => f(e.data)); };
