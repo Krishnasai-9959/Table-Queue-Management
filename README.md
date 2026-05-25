@@ -221,7 +221,7 @@ The architecture consists of:
 
 # Project Structure
 
-```text
+
 Table-Queue-Management/
 │
 ├── frontend/
@@ -253,11 +253,11 @@ Table-Queue-Management/
 
 ## Clone Repository
 
-```bash
+
 git clone https://github.com/Krishnasai-9959/Table-Queue-Management.git
 
 cd Table-Queue-Management
-```
+
 
 ---
 
@@ -287,7 +287,7 @@ Open:
 
 
 frontend/index.html
-```
+
 
 OR use VS Code Live Server.
 
@@ -303,6 +303,52 @@ OR use VS Code Live Server.
 
 - Render
 
+# Docker Support
+
+The project is fully containerized using Docker for consistent development and deployment environments.
+
+---
+
+## Dockerfile
+
+dockerfile
+# Build Stage
+FROM golang:1.25-alpine AS builder
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+
+RUN go build -o server .
+
+# Production Stage
+FROM alpine:latest
+
+WORKDIR /root/
+
+COPY --from=builder /app/server .
+COPY --from=builder /app/frontend ./frontend
+
+EXPOSE 8080
+
+CMD ["./server"]
+
+## Build Docker Image
+
+docker build -t table-queue-management .
+
+## Run Docker Container
+
+docker run -p 8080:8080 table-queue-management
+
+## Access Application
+
+http://localhost:8080
+
+
 ## Production Features
 
 - HTTPS enabled
@@ -315,7 +361,7 @@ OR use VS Code Live Server.
 
 # Real-Time Workflow
 
-```text
+
 User Action
    ↓
 Frontend Request
@@ -329,7 +375,7 @@ Queue State Updated
 WebSocket Broadcast
    ↓
 All Connected Clients Updated
-```
+
 
 ---
 
@@ -337,9 +383,9 @@ All Connected Clients Updated
 
 The project exposes Prometheus-compatible metrics through:
 
-```text
+
 /metrics
-```
+
 
 Used for:
 - backend monitoring
@@ -354,9 +400,8 @@ Used for:
 
 Health endpoint:
 
-```text
 /health
-```
+
 
 Used for:
 - deployment verification
@@ -407,7 +452,7 @@ This project demonstrates practical implementation of:
 
 Create a folder named `screenshots` in the project root and add these files:
 
-```text
+
 screenshots/
 ├── architecture.png
 ├── login-screen.png
@@ -415,13 +460,13 @@ screenshots/
 ├── queue-management.png
 ├── waiter-live-sync.png
 └── prometheus-metrics.png
-```
+
 
 ---
 
 # Author
 
-Krishna Sai
+Krishna Sai Chakka
 
 ## GitHub Repository
 
